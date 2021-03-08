@@ -3,7 +3,14 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const trycatch = require('trycatch');
 const app = express();
+const rateLimit = require("express-rate-limit");
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 50,
+	message: "To many requests, only 50 requests every 15 minutes"
+});
 
+app.use(limiter);
 app.use(cors());
 
 app.use(function(req, res, next){
