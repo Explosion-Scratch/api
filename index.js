@@ -1,7 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const trycatch = require('trycatch');
 const app = express();
 const rateLimit = require("express-rate-limit");
 const limiter = rateLimit({
@@ -13,15 +12,9 @@ const limiter = rateLimit({
 app.use(limiter);
 app.use(cors());
 
-app.use(function(req, res, next){
-   trycatch(function(){
-           app.router(req, res, next);
-       }, function(er){
-				  res.status(500);
-					res.json("Internal server error")
-       });
-});
-
+app.get("/error", (req, res) => {
+	throw new Error("This is a test error! =D")
+})
 app.set("json spaces", 2);
 app.use(bodyParser.json({strict: false, type: "*/*"}));
 
@@ -43,7 +36,12 @@ require("./image-search.js")(app);
 require("./dictionary.js")(app);
 require("./autocomplete.js")(app);
 require("./diff.js")(app);
+require("./link-preview.js")(app);
+require("./follow-redirect.js")(app);
 
 app.listen(3000, () => {
-  console.info("server started");
+  console.info("Port 3000 started.");
+});
+app.listen(5000, () => {
+  console.info("Port 5000 started.");
 });
