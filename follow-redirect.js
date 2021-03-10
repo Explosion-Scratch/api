@@ -1,13 +1,14 @@
 module.exports = (app) => {
 	const { http, https } = require('follow-redirects');
 	app.get("/follow-redirect", (req, res) => {
+		var url = require("url");
 		try{
-			let url = new URL(req.query.q);
+			let pth = url.parse(req.query.q);
 				const request = https.request({
-				host: url.hostname,
-				path: url.path,
+				host: pth.hostname,
+				path: pth.path,
 			}, response => {
-				res.json(response);
+				res.json(response.responseUrl);
 			});
 			request.end();
 		} catch(e){
