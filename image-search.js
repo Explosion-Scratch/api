@@ -6,11 +6,28 @@ module.exports = app => {
 	});
   app.get("/image-search", (req, res) => {
     gis(req.query.q, (err, results) => {
+			if (!results || results.length < 1){
+				res.json([{url: "https://source.unsplash.com/600x400/?puppy,kitten,cute+animal", width: 600, height: 400}]);
+				return;
+			}
       res.json(results);
     });
   });
+
   app.get("/image-search/quick", (req, res) => {
     gis(req.query.q, async (err, results) => {
+			if (!results || results.length < 1){
+				await fetch("https://zum-talent.ecore.com.sg/assets/frontend/image/no_result.jpeg")
+        .then(r => r.buffer())
+        .then(buf => {
+          res.writeHead(200, {
+            "Content-Type": "image/png",
+            "Content-Length": buf.length
+          });
+          res.end(buf);
+        });
+				return;
+			}
       if (results.length < 1) {
         res.send("Error! No results!");
         res.status(204);
