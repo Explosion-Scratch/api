@@ -14,7 +14,7 @@ module.exports = (app) => {
 				host: pth.hostname,
 				path: pth.path,
 			}, response => {
-				res.json(response);
+				res.json(response.responseUrl);
 			});
 			request.end();
 		} catch(e){

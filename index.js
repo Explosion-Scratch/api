@@ -53,6 +53,9 @@ require("./news-search.js")(app);
 require("./ip.js")(app);
 require("./natural.js")(app);
 require("./sound.js")(app);
+require("./yt.js")(app);
+require("./cdnjs.js")(app);
+require("./fetch.js")(app);
 
 app.listen(3000, () => {
   console.info("Port 3000 started.");
@@ -62,5 +65,5 @@ app.listen(5000, () => {
 });
 process.on('unhandledRejection', error => {
   // Will print "unhandledRejection err is not defined"
-  console.info('unhandledRejection', error.message);
+console.info('unhandledRejection', error.message);
 });
